@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import Stats from 'three/addons/libs/stats.module.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-import { MTLLoader } from 'three/addons/loaders/MTLLoader.js'; // Importa o MTLLoader
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
 
 let container, stats;
@@ -12,7 +12,6 @@ const clock = new THREE.Clock();
 init();
 
 function init() {
-  // Configura o contêiner HTML
   container = document.getElementById('container');
 
   // Configura a câmera
@@ -22,7 +21,7 @@ function init() {
 
   // Configura a cena
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xefd1b5);
+  scene.background = new THREE.Color(0xefd1b8);
 
   // Adiciona luzes
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -32,13 +31,13 @@ function init() {
   directionalLight.position.set(1, 1, 0).normalize();
   scene.add(directionalLight);
 
-  // Adiciona um auxiliar para depuração
-  const axesHelper = new THREE.AxesHelper(500);
-  scene.add(axesHelper);
+  // // Adiciona um auxiliar para depuração
+  // const axesHelper = new THREE.AxesHelper(500);
+  // scene.add(axesHelper);
 
   // Carrega o arquivo .mtl (material)
   const mtlLoader = new MTLLoader();
-  mtlLoader.load('public/materialFile.mtl', function (materials) {
+  mtlLoader.load('public/testeCor.mtl', function (materials) {
     materials.preload(); // Prepara os materiais
     console.log('Materiais carregados com sucesso.');
 
@@ -46,8 +45,13 @@ function init() {
     const objLoader = new OBJLoader();
     objLoader.setMaterials(materials); // Associa os materiais ao carregador
     objLoader.load(
-      'public/lakeFile.obj',
+      'public/testeCor.obj',
       function (obj) {
+        obj.traverse(function (child) {
+          if (child.isMesh) {
+            child.material.needsUpdate = true; // Garante que o material seja atualizado
+          }
+        });
         obj.scale.set(0.1, 0.1, 0.1); // Ajusta a escala
         scene.add(obj);
         console.log('Modelo carregado com sucesso.');
@@ -57,6 +61,9 @@ function init() {
         console.error('Erro ao carregar o arquivo OBJ:', error);
       }
     );
+  }, 
+  function (error) {
+    console.error('Erro ao carregar o arquivo MTL:', error);
   });
 
   // Configura o renderizador
