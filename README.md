@@ -38,6 +38,17 @@ Rodar o Projeto
 ```
 
 
+## Demonstração
+
+
+
+
+https://github.com/user-attachments/assets/05f11002-cb98-45d6-9e90-8ef814041b90
+
+
+
+
+
 ## Grupo
 
 - Bianca
